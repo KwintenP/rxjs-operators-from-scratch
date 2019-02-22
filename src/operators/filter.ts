@@ -2,7 +2,7 @@
 
 import { Observable, Observer } from 'rxjs';
 
-export const myFilter = <T> (filter: (n: T) => boolean) => (source: Observable<T>) => {
+export const myFilter = <T>(filter: (n:T) => boolean) => (source: Observable<T>) => {
     return new Observable((observer: Observer<T>) => {
         const subscription = source.subscribe(
             (next: T) => {

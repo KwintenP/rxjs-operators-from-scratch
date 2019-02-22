@@ -10,6 +10,8 @@ test('create our own filter operator', (done) => {
     ).subscribe(val => {
         const expected = expectedResult.shift();
         expect(val).toBe(expected);
-        done();
+        if (expectedResult.length === 0) {
+            done();
+        }
     });
 });
