@@ -9,7 +9,9 @@ export const myFilter = <T>(filter: (n:T) => boolean) => (source: Observable<T>)
                 if(filter(next)) {
                     observer.next(next);
                 }
-            }
+            },
+            (err: any) => observer.error(err),
+            () => observer.complete(),
         );
         return subscription;
     });
