@@ -2,7 +2,7 @@ import { of } from 'rxjs';
 import { scan } from 'rxjs/operators';
 import { myScan } from './scan';
 
-test('create our own filter operator', (done) => {
+test('create our own scan operator', (done) => {
     let expectedResult = [1, 3, 6, 10, 15];
 
     of(1, 2, 3, 4, 5).pipe(
