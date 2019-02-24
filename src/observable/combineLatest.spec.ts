@@ -1,5 +1,4 @@
-import { combineLatest, merge, Observable, Observer } from 'rxjs';
-import { myMerge } from './merge';
+import { combineLatest, Observable, Observer } from 'rxjs';
 import { myCombineLatest } from './combineLatest';
 
 test('create our own combineLatest operator', (done) => {
