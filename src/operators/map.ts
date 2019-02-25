@@ -1,11 +1,12 @@
-// operator -> function that takes an Observable and returns an Observable
-
 import { Observable, Observer } from 'rxjs';
 
-export const myMap = <T, E>(project: (n: T) => E) => (source: Observable<T>) => {
-    return new Observable((observer: Observer<E>) => {
+export const myMap = <T>(map: (n: T) => E) => (source: Observable<T>) => {
+    return new Observable((observer: Observer<T>) => {
         const subscription = source.subscribe(
-            (next: T) => observer.next(project(next)),
+            (next: T) => {
+                const mappedNext = map(next);
+                observer.next(mappedNext);
+            },
             (err: any) => observer.error(err),
             () => observer.complete(),
         );

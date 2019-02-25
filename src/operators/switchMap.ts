@@ -1,23 +1,21 @@
-// operator -> function that takes an Observable and returns an Observable
-
 import { Observable, Observer, Subscription } from 'rxjs';
 
-export const mySwitchMap = (project: (n: T) => Observable<any>) => (source: Observable<T>) => {
-    let innerSubscription: Subscription;
-    return new Observable((observer: Observer<any>) => {
-        source.subscribe(
-            (next: T) => {
-                innerSubscription && innerSubscription.unsubscribe();
-                const innerObs$ = project(next);
-                innerSubscription = innerObs$.subscribe(
-                    (next: T) => {
-                        observer.next(next);
-                    },
-                    (error: any) => observer.error(error),
-                );
-            },
-            (err: any) => observer.error(err),
-            () => observer.complete(),
-        )
-    });
-};
+export const mySwitchMap = (project: (n: T) => Observable<any>) =>
+    (source: Observable<T>) =>
+        new Observable((observer: Observer<T>) => {
+            let innerSubscription: Subscription;
+            const subscription = source.subscribe(
+                (next: T) => {
+                    innerSubscription && innerSubscription.unsubscribe();
+                    const inner$ = project(next);
+                    innerSubscription = inner$.subscribe(
+                        (next: T) => observer.next(next),
+                        (err: any) => observer.error(err),
+                    );
+                },
+                (err: any) => observer.error(err),
+                () => observer.complete(),
+            );
+
+            return subscription;
+        });
