@@ -1,6 +1,6 @@
 import { Observable, Observer } from 'rxjs';
 
-export const myMerge = (...observables: Array<Observable<T>>) => {
+export const myMerge = <T>(...observables: Array<Observable<T>>) => {
     return new Observable((observer: Observer<T>) => {
         const nrOfObservables = observables.length;
         let nrOfCompletedObservables = 0;

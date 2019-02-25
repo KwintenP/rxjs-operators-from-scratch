@@ -1,9 +1,9 @@
 import { Observable, Observer } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
-import { myConcatMap } from './concatMap';
+import { mergeMap } from 'rxjs/operators';
+import { myMergeMap } from './mergeMap';
 
-test('create our own concatMap operator', (done) => {
-    let expectedResult = [1, 1, 1, 2, 2, 2];
+test('create our own mergeMap operator', (done) => {
+    let expectedResult = [1, 1, 2, 1, 2, 2];
 
     const getObs = (index: number) => {
         return new Observable((observer: Observer<number>) => {
@@ -19,9 +19,8 @@ test('create our own concatMap operator', (done) => {
         setTimeout(() => observer.next(2), 30);
         setTimeout(() => observer.complete(), 50);
     }).pipe(
-        myConcatMap((val: number) => getObs(val))
+        myMergeMap((val: number) => getObs(val))
     ).subscribe(val => {
-            console.log(val);
             const expected = expectedResult.shift();
             expect(val).toBe(expected)
         },
