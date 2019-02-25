@@ -1,11 +1,11 @@
-import { timer } from 'rxjs';
-import { myTimer } from './timer';
+import { interval } from 'rxjs';
+import { myInterval } from './interval';
 
-test('create our own timer operator', (done) => {
+test('create our own interval', (done) => {
     const expectedResult = [0, 1, 2, 3, 4, 5];
 
-    myTimer(0, 10)
-        .subscribe(val => {
+    myInterval(100)
+        .subscribe((val: number) => {
             const expected = expectedResult.shift();
             expect(val).toBe(expected);
             if (expectedResult.length === 0) {
