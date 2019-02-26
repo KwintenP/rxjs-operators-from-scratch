@@ -1,8 +1,6 @@
-// operator -> function that takes an Observable and returns an Observable
-
 import { Observable, Observer } from 'rxjs';
 
-export const myTake = (quantity: number) => <T>(source: Observable<T>) => {
+export const myTake = <T>(quantity: number) => (source: Observable<T>) => {
     return new Observable((observer: Observer<T>) => {
         let count = 0;
         const subscription = source.subscribe(
@@ -14,8 +12,11 @@ export const myTake = (quantity: number) => <T>(source: Observable<T>) => {
                 }
             },
             (err: any) => observer.error(err),
-            () => observer.complete()
+            () => observer.complete(),
         );
+
+        return subscription;
     });
 };
+
 

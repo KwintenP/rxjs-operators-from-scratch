@@ -1,11 +1,15 @@
 import { Observable, Observer } from 'rxjs';
 
-export const myMap = <T, E>(map: (n: T) => E) => (source: Observable<T>) => {
-    return new Observable((observer: Observer<E>) => {
+export const myMap = <T>(map: (n: T) => T) => (source: Observable<T>) => {
+    return new Observable((observer: Observer<T>) => {
         const subscription = source.subscribe(
-            (next: T) => observer.next(map(next)),
+            (next: T) => {
+                // call our map function
+                const mappedNext = map(next);
+                observer.next(mappedNext);
+            },
             (err: any) => observer.error(err),
-            () => observer.complete(),
+            () => observer.complete()
         );
 
         return subscription;

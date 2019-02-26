@@ -1,5 +1,3 @@
-// operator -> function that takes an Observable and returns an Observable
-
 import { Observable, Observer } from 'rxjs';
 
 export const myFilter = <T>(filter: (n: T) => boolean) =>
@@ -7,7 +5,10 @@ export const myFilter = <T>(filter: (n: T) => boolean) =>
         return new Observable((observer: Observer<T>) => {
             const subscription = source.subscribe(
                 (next: T) => {
-                    if (filter(next)) {
+                    // call filter function
+                    // true -> pass to the observer
+                    // false -> discard the event
+                    if(filter(next)) {
                         observer.next(next);
                     }
                 },
