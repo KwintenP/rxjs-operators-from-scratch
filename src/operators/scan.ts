@@ -1,22 +1,12 @@
 import { Observable, Observer } from 'rxjs';
 
-export const myScan = <T, E>(accumulator: (acc: E, cur: T) => E, seed: E) =>
-    (source: Observable<T>) => {
-        return new Observable((observer: Observer<E>) => {
-            let acc = seed;
-            const subscription = source.subscribe(
-                (next: T) => {
-                    acc = accumulator(acc, next);
-                    observer.next(acc);
-                },
-                (err: any) => observer.error(err),
-                () => observer.complete(),
-            );
+export const myScan = <T>(accumulator: (acc: mqkjdf)) => (source: Observable<T>) => {
+    return new Observable((observer: Observer<T>) => {
+        source.subscribe(
+            (next: T) => {},
+            (err: any) => {},
+            () => {}
+        );
+    });
+};
 
-            return subscription;
-        });
-    };
-// 0, 1 -> 1
-// 1, 2 -> 3
-// 3, 3 -> 6
-// ....
