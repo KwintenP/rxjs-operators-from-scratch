@@ -7,8 +7,8 @@ export const myTake = <T>(quantity: number) => (source: Observable<T>) => {
             (next: T) => {
                 observer.next(next);
                 if(quantity === ++count) {
-                    observer.complete();
                     subscription.unsubscribe();
+                    observer.complete();
                 }
             },
             (err: any) => observer.error(err),
@@ -18,5 +18,4 @@ export const myTake = <T>(quantity: number) => (source: Observable<T>) => {
         return subscription;
     });
 };
-
 

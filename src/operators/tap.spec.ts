@@ -1,18 +1,26 @@
 import { of } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { myTap } from './tap';
+import { tap } from 'rxjs/operators';
 
 test('create our own tap operator', (done) => {
     let expectedResult = [1, 2, 3, 4, 5];
 
     of(1, 2, 3, 4, 5).pipe(
-        myTap(val => {
-                const expected = expectedResult.shift();
-                expect(val).toBe(expected);
-                if (expectedResult.length === 0) {
-                    done();
-                }
-            }
+        myTap(
+            (next: number) => console.log(next),
+            (err: any) => console.log(err),
+            () => console.log('complete')
         )
-    ).subscribe();
+    ).subscribe(
+        val => {
+            const expected = expectedResult.shift();
+            expect(val).toBe(expected);
+        },
+        (error: any) => {
+        },
+        () => {
+            expect(expectedResult.length).toBe(0);
+            done();
+        }
+    );
 });

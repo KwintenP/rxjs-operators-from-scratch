@@ -13,5 +13,8 @@ test('create our own take operator', (done) => {
         },
         (err: any) => {
         },
-        () => done());
+        () => {
+            expect(expectedResult.length).toBe(0);
+            done()
+        });
 });

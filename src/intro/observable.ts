@@ -20,7 +20,7 @@ const obs$ = new MyObservable<number>((observer: MyObserver<number>) => {
 });
 
 obs$.subscribe({
-    next: (n: T) => console.log('next', n),
+    next: (n: number) => console.log('next', n),
     error: (err: any) => console.log('error', err),
     complete: () => console.log('complete')
 });
