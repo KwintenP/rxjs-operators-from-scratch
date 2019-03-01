@@ -1,27 +1,26 @@
-interface Observer<T> {
-    next: (val: T) => void,
-    error: (err: any) => void,
-    complete: () => void,
+interface MyObserver<T> {
+    next: (n: T) => void;
+    error: (err: any) => void;
+    complete: () => void;
 }
 
-class Observable<T> {
-    constructor(private producer: (observer: Observer<T>) => void) {
+class MyObservable<T> {
 
-    }
+    constructor(private producer: (observer: MyObserver<T>) => void) {}
 
-    subscribe(observer: Observer<T>) {
-        return this.producer(observer);
+    subscribe(observer: MyObserver<T>) {
+        this.producer(observer);
     }
 }
 
-const nr1Obs = new Observable((observer: Observer<number>) => {
+const obs$ = new MyObservable<number>((observer: MyObserver<number>) => {
     observer.next(1);
-    observer.complete();
+    setTimeout(() => observer.next(2), 20);
+    setTimeout(() => observer.error('error'), 40);
 });
 
-nr1Obs.subscribe({
-    next: val => console.log(val),
-    error: err => console.log(err),
+obs$.subscribe({
+    next: (n: T) => console.log('next', n),
+    error: (err: any) => console.log('error', err),
     complete: () => console.log('complete')
 });
-
