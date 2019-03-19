@@ -16,8 +16,7 @@ test('create our own tap operator', (done) => {
             const expected = expectedResult.shift();
             expect(val).toBe(expected);
         },
-        (error: any) => {
-        },
+        (error: any) => {},
         () => {
             expect(expectedResult.length).toBe(0);
             done();

@@ -1,11 +1,15 @@
 import { Observable, Observer } from 'rxjs';
 
-export const myInterval = (periodTime: number) =>
-    new Observable((observer: Observer<number>) => {
-        let counter = -1;
-        const clearIntervalId = setInterval(() => observer.next(++counter), periodTime);
+export const myInterval = (intervalTime: number) => {
+    return new Observable((observer: Observer<number>) => {
+        let count = 0;
+        const intervalId = setInterval(() => {
+            observer.next(count);
+            count++;
+        }, intervalTime);
 
         return () => {
-            clearInterval(clearIntervalId);
-        }
+            clearInterval(intervalId);
+        };
     });
+};

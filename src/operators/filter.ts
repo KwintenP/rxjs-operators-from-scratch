@@ -9,8 +9,12 @@ export const myFilter = <T>(filterFn: (n: T) => boolean) =>
                         observer.next(next);
                     }
                 },
-                (err: any) => observer.error(err),
-                () => observer.complete()
+                (err: any) => {
+                    observer.error(err);
+                },
+                () => {
+                    observer.complete();
+                }
             );
 
             return subscription;

@@ -8,7 +8,9 @@ export const myReduce = <T>(accumulator: (acc: T, cur: T) => T, seed: T) =>
                 (next: T) => {
                     acc = accumulator(acc, next);
                 },
-                (err: any) => observer.error(err),
+                (err: any) => {
+                    observer.error(err);
+                },
                 () => {
                     observer.next(acc);
                     observer.complete();
@@ -19,7 +21,7 @@ export const myReduce = <T>(accumulator: (acc: T, cur: T) => T, seed: T) =>
         });
     };
 
-// 0, 1 -> 1
-// 1, 2 -> 3
-// 3, 3 -> 6
+// acc: 0, cur: 1 => 1
+// acc: 1, cur: 2 => 3
+// acc: 3, cur: 3 => 6
 // ....

@@ -1,6 +1,6 @@
 import { interval, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { myTakeUntil } from './takeUntil';
+import { takeUntil } from 'rxjs/operators';
 
 test('create our own takeUntil operator', (done) => {
     const stop$ = new Subject();
@@ -8,7 +8,7 @@ test('create our own takeUntil operator', (done) => {
     const expectedResult = [0, 1, 2];
 
     interval(10).pipe(
-        myTakeUntil(stop$)
+        takeUntil(stop$)
     ).subscribe(val => {
             const expected = expectedResult.shift();
             expect(val).toBe(expected);

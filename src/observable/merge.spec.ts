@@ -2,7 +2,7 @@ import { merge, Observable, Observer } from 'rxjs';
 import { myMerge } from './merge';
 
 test('create our own merge operator', (done) => {
-    const obs1 = new Observable((observer: Observer<number>) => {
+     const obs1 = new Observable((observer: Observer<number>) => {
         observer.next(1);
         setTimeout(() => observer.next(2), 10);
         setTimeout(() => observer.next(3), 30);
@@ -27,7 +27,10 @@ test('create our own merge operator', (done) => {
                 const expected = expectedResult.shift();
                 expect(val).toBe(expected);
             },
-            (err: any) => console.log,
-            () => done()
+            (err: any) => console.log(err),
+            () => {
+                expect(expectedResult.length).toBe(0);
+                done();
+            }
         );
 });

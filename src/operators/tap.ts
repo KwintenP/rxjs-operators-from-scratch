@@ -3,8 +3,9 @@ import { Observable, Observer } from 'rxjs';
 export const myTap = <T>(
     nextFn: (n: T) => void,
     errorFn: (err: any) => void,
-    completeFn: () => void
-) => (source: Observable<T>) => {
+    completeFn: () => void,
+) =>
+    (source: Observable<T>) => {
     return new Observable((observer: Observer<T>) => {
         const subscription = source.subscribe(
             (next: T) => {
@@ -24,4 +25,3 @@ export const myTap = <T>(
         return subscription;
     });
 };
-

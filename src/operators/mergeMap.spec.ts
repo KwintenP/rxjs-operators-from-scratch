@@ -1,6 +1,6 @@
 import { Observable, Observer } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
 import { myMergeMap } from './mergeMap';
+import { mergeMap } from 'rxjs/operators';
 
 test('create our own mergeMap operator', (done) => {
     let expectedResult = [1, 1, 2, 1, 2, 2];
@@ -26,6 +26,21 @@ test('create our own mergeMap operator', (done) => {
         },
         (err: any) => {
         },
-        () => done()
+        () => {
+            expect(expectedResult.length).toBe(0);
+            done();
+        }
     );
 });
+
+// <editor-fold desc="geObs">
+// geObs     v--v--v-|
+// </editor-fold>
+// <editor-fold desc="marble">
+// geObs     v--v--v-|
+// source$:  x----x----
+//           |    \
+//           \     2--2--2-|
+//            1--1--1-|
+// result$   -1--1-21-2--2-|
+// </editor-fold>

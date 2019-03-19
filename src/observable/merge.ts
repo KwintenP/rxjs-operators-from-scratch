@@ -1,23 +1,27 @@
 import { Observable, Observer } from 'rxjs';
 
-export const myMerge = <T>(...observables: Array<Observable<T>>) => {
-    return new Observable((observer: Observer<T>) => {
+export const myMerge = (...observables: Array<Observable<any>>) => {
+    return new Observable((observer: Observer<any>) => {
         const nrOfObservables = observables.length;
-        let nrOfCompletedObservables = 0;
-        const subscriptions = observables.map(obs => {
-            return obs.subscribe(
-                (next: T) => observer.next(next),
-                (err: any) => observer.error(err),
-                () => {
-                    if(nrOfObservables === ++nrOfCompletedObservables) {
-                        observer.complete();
-                    }
-                },
-            );
-        });
+        let nrOfObservablesCompleted = 0;
+        const subscriptions = observables.map(obs => obs.subscribe(
+            (next: any) => {
+                observer.next(next);
+            },
+            (err: any) => {
+                observer.error(err);
+            },
+            () => {
+                nrOfObservablesCompleted++;
+                if(nrOfObservables === nrOfObservablesCompleted) {
+                    // if ALL of the source observables completed
+                    observer.complete();
+                }
+            }
+        ));
 
         return () => {
-          subscriptions.forEach(sub => sub.unsubscribe());
-        };
+            subscriptions.forEach(sub => sub.unsubscribe());
+        }
     });
 };

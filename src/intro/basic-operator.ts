@@ -1,14 +1,14 @@
 import { Observable, Observer, of } from 'rxjs';
 
-const newOperator = <T>(source: Observable<T>) => {
+const myOperator = <T>(source: Observable<T>) => {
     return new Observable((observer: Observer<T>) => {
-        const subsription = source.subscribe(
+        const subscription = source.subscribe(
             (next: T) => {
                 console.log('next', next);
                 observer.next(next);
             },
             (error: any) => {
-                console.log('error', error);
+                console.log('erorr', error);
                 observer.error(error);
             },
             () => {
@@ -17,10 +17,10 @@ const newOperator = <T>(source: Observable<T>) => {
             }
         );
 
-        return subsription;
+        return subscription;
     });
 };
 
 of(1).pipe(
-    newOperator
-).subscribe(val => console.log('this is the next value', val));
+    myOperator
+).subscribe((next: number) => console.log(next));

@@ -1,6 +1,6 @@
 import { Observable, Observer } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
 import { myConcatMap } from './concatMap';
+import { concatMap } from 'rxjs/operators';
 
 test('create our own concatMap operator', (done) => {
     let expectedResult = [1, 1, 1, 2, 2, 2];
@@ -21,12 +21,23 @@ test('create our own concatMap operator', (done) => {
     }).pipe(
         myConcatMap((val: number) => getObs(val))
     ).subscribe(val => {
-            console.log(val);
             const expected = expectedResult.shift();
-            expect(val).toBe(expected)
+            expect(expected).toBe(val);
         },
         (err: any) => {
         },
-        () => done()
+        () => {
+            expect(expectedResult.length).toBe(0);
+            done();
+        }
     );
 });
+
+// <editor-fold desc="marble">
+// geObs     v--v--v-|
+// source$:  x----x----
+//           |        \
+//           \         2--2--2-|
+//            1--1--1-|
+// result$   -1--1--1--2--2--2-|
+// </editor-fold>

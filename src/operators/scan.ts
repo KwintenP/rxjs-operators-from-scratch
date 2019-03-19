@@ -9,16 +9,19 @@ export const myScan = <T>(accumulator: (acc: T, cur: T) => T, seed: T) =>
                     acc = accumulator(acc, next);
                     observer.next(acc);
                 },
-                (err: any) => observer.error(err),
-                () => observer.complete(),
+                (err: any) => {
+                    observer.error(err);
+                },
+                () => {
+                    observer.complete();
+                }
             );
 
             return subscription;
         });
     };
 
-// 0, 1 -> 1
-// 1, 2 -> 3
-// 3, 3 -> 6
+// acc: 0, cur: 1 => 1
+// acc: 1, cur: 2 => 3
+// acc: 3, cur: 3 => 6
 // ....
-

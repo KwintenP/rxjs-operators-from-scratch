@@ -1,7 +1,7 @@
 import { Observable, Observer, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-const newOperator = <T>(identifier: string) => (source: Observable<T>) => {
+const myOperator = <T>(identifier: string) => (source: Observable<T>) => {
     return new Observable((observer: Observer<T>) => {
         const subscription = source.subscribe(
             (next: T) => {
@@ -10,7 +10,7 @@ const newOperator = <T>(identifier: string) => (source: Observable<T>) => {
                 observer.next(next);
             },
             (error: any) => {
-                console.log('error', error);
+                console.log('erorr', error);
                 observer.error(error);
             },
             () => {
@@ -24,5 +24,5 @@ const newOperator = <T>(identifier: string) => (source: Observable<T>) => {
 };
 
 of(1).pipe(
-    newOperator('someIdentifier')
-).subscribe(val => console.log('this is the next value', val));
+    myOperator('someString'),
+).subscribe((next: number) => console.log(next));

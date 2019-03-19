@@ -21,7 +21,6 @@ test('create our own switchMap operator', (done) => {
     }).pipe(
         mySwitchMap((val: number) => getObs(val))
     ).subscribe(val => {
-            console.log(val);
             const expected = expectedResult.shift();
             expect(val).toBe(expected)
         },
@@ -30,3 +29,15 @@ test('create our own switchMap operator', (done) => {
         () => done()
     );
 });
+
+// <editor-fold desc="geObs">
+// geObs     v--v--v-|
+// </editor-fold>
+// <editor-fold desc="marble">
+// geObs     v--v--v-|
+// source$:  x----x---|
+//           |    \
+//           \     2--2--2-|
+//            1--1!
+// result$   -1--1-2--2--2-|
+// </editor-fold>

@@ -11,6 +11,9 @@ test('create our own of operator', (done) => {
                 expect(val).toBe(expected);
             },
             (err: any) => console.log,
-            () => done()
+            () => {
+                expect(expectedResult.length).toBe(0);
+                done();
+            }
         );
 });

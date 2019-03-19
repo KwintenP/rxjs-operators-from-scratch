@@ -6,16 +6,23 @@ export const myTake = <T>(quantity: number) => (source: Observable<T>) => {
         const subscription = source.subscribe(
             (next: T) => {
                 observer.next(next);
-                if(quantity === ++count) {
-                    subscription.unsubscribe();
+                count++;
+                if(quantity === count) {
                     observer.complete();
+                    subscription.unsubscribe();
                 }
             },
-            (err: any) => observer.error(err),
-            () => observer.complete(),
+            (err: any) => {
+                observer.error(err);
+            },
+            () => {
+                observer.complete();
+            }
         );
 
         return subscription;
     });
 };
+
+
 

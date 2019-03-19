@@ -1,26 +1,16 @@
-// operator -> function that takes an Observable and returns an Observable
+import { Observable, Observer } from 'rxjs';
 
-import { Observable, Observer, Subscription } from 'rxjs';
-
-export const myTakeUntil = (trigger$: Observable<any>) => <T>(source: Observable<T>) => {
+export const myTakeUntil = <T>(source: Observable<T>) => {
     return new Observable((observer: Observer<T>) => {
-        const subscription = new Subscription();
-        subscription.add(trigger$.subscribe(
-            (next: any) => {
-                observer.complete();
-                outerSubscription.unsubscribe();
-            }
-        ));
-        const outerSubscription = source.subscribe(
-            (next: T) => {
-                observer.next(next);
-            },
-            (err: any) => observer.error(err),
-            () => observer.complete()
+        const subscription = source.subscribe(
+            (next: T) => {},
+            (err: any) => {},
+            () => {}
         );
-        subscription.add(outerSubscription);
 
         return subscription;
     });
 };
+
+
 
